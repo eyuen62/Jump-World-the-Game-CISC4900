@@ -1,5 +1,26 @@
-# Jump-World-the-Game-CISC4900
+# Jump World the Game — CISC 4900
 
-Time Log: https://docs.google.com/spreadsheets/d/1Mqyjn2j3KyVwRAuWkwHS2y0Tm3DJDeouGELH2E2kZZQ/edit?usp=sharing
+A single-player 2D pixel art platformer built in Unity 6 using C# code.
+Developed as a senior project at Brooklyn College under CISC 4900.
 
-Jump World the Game is a single player pixel art platformer where the goal is to reach to the end, inspired by classic games like Super Mario and Jump King. You play as a knight who spawns randomly in a world filled with monsters that you must either slay with your sword or avoid them to prevent taking damage. Your movement is limited as you can only jump up and move left and right and attacking with your swords. The game features multiple worlds, each with different enemy types, varying monster health, and increasing difficulty. Along the way, "Lucky Blocks" will spawn randomly, giving you a chance to either find health items or spawn additional enemies. Your task is simple: survive, defeat your enemies, and reach the end.
+---
+
+## About
+
+Jump World the Game is a 2D pixel art platformer where the player controls a knight who must fight enemies, collect food items, and survive to reach the end of each level. The game is inspired by classic platformers like Super Mario and Jump King.
+
+---
+
+## Built With:
+
+- Unity 6
+- C#
+- Visual Studio 2022
+- Git & GitHub
+
+---
+
+## Links:
+
+- Time Log: https://docs.google.com/spreadsheets/d/1Mqyjn2j3KyVwRAuWkwHS2y0Tm3DJDeouGELH2E2kZZQ/edit?usp=sharing
+- Project Board: https://github.com/users/eyuen62/projects/3
