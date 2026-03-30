@@ -97,10 +97,34 @@ public class Damageable : MonoBehaviour
 
             // notify other subscribed components that the damageable was hit to handle the knockback and such
             damageableHit?.Invoke(damage, knockback);
+
+            CharacterEvents.characterDamaged?.Invoke(gameObject, damage);
+
             return true;
         }
 
         // unable to be hit
         return false;
+    }
+
+    public void Heal(int healthRestore)
+    {
+        if (IsAlive) // only heal if the character is still alive - no point healing a dead character
+        {
+            // figure out how much room is left before hitting max health
+            // for example if health is 90 and max is 100, there is 10 room left
+            // Mathf.Max makes sure this never goes below 0 just in case
+            int maxHeal = Mathf.Max(MaxHealth - Health, 0);
+
+            // pick whichever is smaller - the room left or the food's restore value
+            // this prevents the health from ever going over the max health cap
+            // for example if room left is 10 but food restores 35, actualHeal becomes 10
+            int actualHeal = Mathf.Min(maxHeal, healthRestore);
+
+            Health += actualHeal; // add only the capped heal amount to the current health
+
+            // fire the global heal event with the actual healed amount so the green floating text shows the right number
+            CharacterEvents.characterHealed?.Invoke(gameObject, actualHeal);
+        }
     }
 }
