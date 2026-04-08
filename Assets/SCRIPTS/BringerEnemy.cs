@@ -7,13 +7,12 @@ public class BringerEnemy : MonoBehaviour
     public float walkSpeed = 3f; // how fast the Enemy moves - 3 is medium speed, lower is slower, higher is faster
     public float walkStopRate = 0.6f; // how quick the Enemy slows down to a stop before attacking
     public DetectionZone attackZone; // reference to the DetectionZone object that detects when the Player is in range
-    public DetectionZone cliffDetectionZone;
-
+    public DetectionZone cliffDetectionZone; // reference to the DetectionZone object that detects when the Enemy is near a cliff
 
     Rigidbody2D rb; // reference to the Rigidbody2D component
     TouchingDirections touchingDirections; // reference to TouchingDirections script so we know when the Enemy touches a Wall or the Ground
     Animator animator; // reference to the Animator component
-    Damageable damageable;
+    Damageable damageable; // reference to the Damageable component
 
     public enum WalkableDirection { Right, Left } // Enemy can ONLY be going Right or Left
 
@@ -62,11 +61,11 @@ public class BringerEnemy : MonoBehaviour
     {
         get
         {
-            return animator.GetFloat("attackCooldown");
+            return animator.GetFloat("attackCooldown"); // get the current attack cooldown value from the Animator
         }
         private set
         {
-            animator.SetFloat("attackCooldown", Mathf.Max(value, 0));
+            animator.SetFloat("attackCooldown", Mathf.Max(value, 0)); // set the cooldown value but never let it go below 0
         }
     }
 
@@ -83,21 +82,34 @@ public class BringerEnemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>(); // reference to the Rigidbody2D component
         touchingDirections = GetComponent<TouchingDirections>(); // reference to TouchingDirections script
         animator = GetComponent<Animator>(); // reference to the Animator component
-        damageable = GetComponent<Damageable>();
-
+        damageable = GetComponent<Damageable>(); // reference to the Damageable component
     }
 
     private void Update()
     {
-        // check it's area box if the Player is inside the detection zone
-        // if the list has more than 0 colliders then the Enemy has a target (aka the Player)
-        HasTarget = attackZone.detectedColliders.Count > 0;
+        // check the attack zone and only set HasTarget to true if the Player is inside AND still alive
+        // this prevents the Enemy from continuing to attack after the Player dies
+        HasTarget = attackZone.detectedColliders.Count > 0 && IsPlayerAlive();
 
         if (AttackCooldown > 0)
         {
-            AttackCooldown -= Time.deltaTime;
+            AttackCooldown -= Time.deltaTime; // count down the attack cooldown every frame
         }
+    }
 
+    private bool IsPlayerAlive()
+    {
+        // go through everything currently inside the attack zone
+        // if any of them have a Damageable component, check if they are still alive
+        foreach (Collider2D collider in attackZone.detectedColliders)
+        {
+            Damageable damageable = collider.GetComponent<Damageable>();
+            if (damageable != null)
+            {
+                return damageable.IsAlive; // return whether the detected target is alive or not
+            }
+        }
+        return false; // nothing with a Damageable found in the zone so treat it as no alive target
     }
 
     private bool hasFlipped = false; // prevents the Enemy from rapidly flipping back and forth while still touching the Wall
@@ -118,10 +130,12 @@ public class BringerEnemy : MonoBehaviour
         {
             if (CanMove)
             {
+                // move the Enemy left or right at walkSpeed while keeping the current up/down velocity unchanged
                 rb.linearVelocity = new Vector2(walkSpeed * walkDirectionVector.x, rb.linearVelocity.y);
             }
             else
             {
+                // smoothly slow down the Enemy to a stop using Lerp when it cant move (for example during an attack)
                 rb.linearVelocity = new Vector2(Mathf.Lerp(rb.linearVelocity.x, 0, walkStopRate), rb.linearVelocity.y);
             }
         }
@@ -139,7 +153,7 @@ public class BringerEnemy : MonoBehaviour
         }
     }
 
-    // LockVelocity = true is NOT set here — Damageable.Hit() already handles it automatically
+    // LockVelocity = true is NOT set here - Damageable.Hit() already handles it automatically
     public void OnHit(int damage, Vector2 knockback)
     {
         rb.linearVelocity = new Vector2(knockback.x, rb.linearVelocity.y + knockback.y);
@@ -147,7 +161,7 @@ public class BringerEnemy : MonoBehaviour
 
     public void OnCliffDetected()
     {
-        // only flip if the enemy is on the ground — prevents flipping mid-air
+        // only flip if the enemy is on the ground - prevents flipping mid-air
         if (touchingDirections.IsGrounded)
         {
             FlipDirection();

@@ -105,7 +105,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef9b923ac5e194942b899b946151871f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthPickup
-  healthRestore: 20
+  healthRestore: 7
+  spinRotationSpeed: {x: 0, y: 180, z: 0}
 --- !u!58 &-2096517044434790609
 CircleCollider2D:
   m_ObjectHideFlags: 0

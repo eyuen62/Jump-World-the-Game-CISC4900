@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4150066015495939764}
   - component: {fileID: 9202793279089515698}
-  - component: {fileID: -4832158069291266014}
+  - component: {fileID: 747286983627297661}
   - component: {fileID: -8411428297970952999}
   m_Layer: 12
   m_Name: Onion
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &-4832158069291266014
+--- !u!114 &747286983627297661
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,10 +102,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7535078281353764777}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9b923ac5e194942b899b946151871f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a6390dcac9c7c64f99a5fdeb75c7eee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthPickup
-  healthRestore: 20
+  m_EditorClassIdentifier: Assembly-CSharp::DamagePickup
+  damageCaused: 8
+  spinRotationSpeed: {x: 0, y: 180, z: 0}
 --- !u!58 &-8411428297970952999
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6910019648180694182}
   - component: {fileID: 3598513537148207723}
-  - component: {fileID: 136155185970718876}
+  - component: {fileID: 6164226329428457994}
   - component: {fileID: 213965107532838497}
   m_Layer: 12
   m_Name: AppleWorm
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &136155185970718876
+--- !u!114 &6164226329428457994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,10 +102,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 5256867639509388265}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9b923ac5e194942b899b946151871f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a6390dcac9c7c64f99a5fdeb75c7eee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthPickup
-  healthRestore: 20
+  m_EditorClassIdentifier: Assembly-CSharp::DamagePickup
+  damageCaused: 6
+  spinRotationSpeed: {x: 0, y: 180, z: 0}
 --- !u!58 &213965107532838497
 CircleCollider2D:
   m_ObjectHideFlags: 0

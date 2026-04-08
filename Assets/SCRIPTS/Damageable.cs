@@ -6,6 +6,7 @@ public class Damageable : MonoBehaviour
     Animator animator;
 
     public UnityEvent<int, Vector2> damageableHit;
+    public UnityEvent damageableDeath; // fires when the character dies - any listener can react to the death
 
     [SerializeField]
     private int _maxHealth = 100;
@@ -51,6 +52,11 @@ public class Damageable : MonoBehaviour
             _isAlive = value;
             animator.SetBool("isAlive", value);
             Debug.Log("IsAlive set " + value);
+
+            if (value == false)
+            {
+                damageableDeath.Invoke(); // notify any listeners that this character has died
+            }
         }
     }
 

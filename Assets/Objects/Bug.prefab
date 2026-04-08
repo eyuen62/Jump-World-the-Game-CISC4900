@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3675771743056299629}
   - component: {fileID: 730397359397719097}
-  - component: {fileID: 9057625157462926986}
+  - component: {fileID: 5625739911948310348}
   - component: {fileID: -87174613893153744}
   m_Layer: 12
   m_Name: Bug
@@ -93,7 +93,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &9057625157462926986
+--- !u!114 &5625739911948310348
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,10 +102,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7892390279101834876}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9b923ac5e194942b899b946151871f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a6390dcac9c7c64f99a5fdeb75c7eee, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthPickup
-  healthRestore: 20
+  m_EditorClassIdentifier: Assembly-CSharp::DamagePickup
+  damageCaused: 7
+  spinRotationSpeed: {x: 0, y: 180, z: 0}
 --- !u!58 &-87174613893153744
 CircleCollider2D:
   m_ObjectHideFlags: 0
