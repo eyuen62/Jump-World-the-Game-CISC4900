@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     TouchingDirections touchingDirections; // reference to the TouchingDirections script to know if the Player is on the Ground, Wall, or Ceiling
     Damageable damageable; // reference to the Damageable component
     CapsuleCollider2D capsuleCollider; // reference to the Capsule Collider so we can resize it when crouching
+    Rigidbody2D rb; // reference to the Rigidbody2D component
+    Animator animator; // reference to the Animator component
 
     // stores the original collider values so we can restore them when standing back up
     private Vector2 originalColliderSize;
@@ -116,9 +118,6 @@ public class PlayerController : MonoBehaviour
     {
         get { return animator.GetBool("isAlive"); } // returns true if alive, false if dead
     }
-
-    Rigidbody2D rb; // reference to the Rigidbody2D component
-    Animator animator; // reference to the Animator component
 
     private void Awake() // runs once when the game starts, before everything else
     {
