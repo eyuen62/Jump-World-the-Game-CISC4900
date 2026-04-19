@@ -2,33 +2,42 @@ using UnityEngine;
 
 public class SetBoolBehaviour : StateMachineBehaviour
 {
-    public string boolName; // the name of the Bool parameter in the Animator we want to change
-    public bool updateOnState; // if checked, this runs when entering or exiting a plain state (grey box)
-    public bool updateOnStateMachine; // if checked, this runs when entering or exiting a sub-state machine (orange box)
-    public bool valueOnEnter; // the value to set when entering this state
-    public bool valueOnExit; // the value to set when exiting this state
+    // the name of the Bool parameter in the Animator we want to change
+    public string boolName;
 
-    // OnStateEnter is called before OnStateEnter is called on any state inside this state machine
+    // if checked, this runs when entering or exiting a plain state (grey box in the Animator)
+    public bool updateOnState;
+
+    // if checked, this runs when entering or exiting a sub-state machine (orange box in the Animator)
+    public bool updateOnStateMachine;
+
+    // the value to set when entering this state
+    public bool valueOnEnter;
+
+    // the value to set when exiting this state
+    public bool valueOnExit;
+
+    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (updateOnState)
         {
-            animator.SetBool(boolName, valueOnEnter);
+            animator.SetBool(boolName, valueOnEnter); // set the Bool to valueOnEnter when entering
         }
     }
 
-    // OnStateUpdate is called before OnStateUpdate is called on any state inside this state machine
+    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     //override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     //{
     //    
     //}
 
-    // OnStateExit is called before OnStateExit is called on any state inside this state machine
+    // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (updateOnState)
         {
-            animator.SetBool(boolName, valueOnExit); // YouTuber had valueOnEnter here by mistake — fixed
+            animator.SetBool(boolName, valueOnExit); // set the Bool to valueOnExit when exiting
         }
     }
 

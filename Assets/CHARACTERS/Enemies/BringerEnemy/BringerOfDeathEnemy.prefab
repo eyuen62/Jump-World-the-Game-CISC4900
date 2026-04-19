@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BringerEnemy
   walkSpeed: 2
-  walkStopRate: 0.6
+  walkStopRate: 0.5
   attackZone: {fileID: 5729389298131723925}
   cliffDetectionZone: {fileID: 4481674845068310169}
   _hasTarget: 0
@@ -374,8 +374,8 @@ MonoBehaviour:
   damageableDeath:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 100
-  _health: 100
+  _maxHealth: 150
+  _health: 150
   _isAlive: 1
   isInvincible: 0
   invincibilityTime: 0.25
@@ -400,8 +400,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 3
+  MaxDistance: 6
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -436,7 +436,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -651,17 +651,18 @@ PolygonCollider2D:
   m_Points:
     m_Paths:
     - - {x: 1.2358129, y: 1.0653622}
-      - {x: 3.178371, y: 1.9045795}
-      - {x: 4.1385684, y: 2.2294273}
-      - {x: 4.530122, y: 2.351582}
-      - {x: 6.409782, y: 2.4731586}
-      - {x: 6.2429905, y: 2.6221614}
-      - {x: 4.5287104, y: 2.825217}
-      - {x: 3.362176, y: 2.8228838}
-      - {x: 2.5336173, y: 2.74667}
-      - {x: 3.124946, y: 2.9628742}
-      - {x: 1.9783437, y: 2.8395045}
-      - {x: 1.4592843, y: 2.6320474}
+      - {x: 2.2600336, y: 1.547198}
+      - {x: 2.2769568, y: 1.5719993}
+      - {x: 2.2928905, y: 1.5909126}
+      - {x: 2.3092947, y: 1.6172282}
+      - {x: 2.301455, y: 1.6455214}
+      - {x: 2.1895192, y: 1.788197}
+      - {x: 1.9330505, y: 2.0405343}
+      - {x: 1.800598, y: 2.2540994}
+      - {x: 1.582569, y: 2.5198464}
+      - {x: 1.506828, y: 2.6033673}
+      - {x: 1.4779954, y: 2.6221473}
+      - {x: 1.3632176, y: 2.6474173}
       - {x: -0.25339124, y: 1.960214}
       - {x: -0.6564229, y: 1.7586076}
       - {x: -0.60079193, y: 2.0895038}
@@ -673,14 +674,15 @@ PolygonCollider2D:
       - {x: -1.0614865, y: -1.1878684}
       - {x: -0.60111755, y: -1.4091508}
       - {x: -0.340477, y: -1.5728747}
-      - {x: 0.13541281, y: -1.6786553}
+      - {x: 0.23433426, y: -1.733612}
       - {x: 0.40558234, y: -1.2582738}
       - {x: 0.55742633, y: -0.996228}
       - {x: 0.6105718, y: -0.8545841}
       - {x: 0.83808637, y: -0.87684405}
-      - {x: 1.0311673, y: -1.3157518}
-      - {x: 1.6337875, y: -0.92453885}
-      - {x: 1.3815217, y: -0.7850776}
+      - {x: 1.0091882, y: -1.3377348}
+      - {x: 1.1797612, y: -0.9776573}
+      - {x: 1.4139593, y: -0.80363345}
+      - {x: 1.5244075, y: -0.9169743}
       - {x: 1.4305342, y: -0.3793357}
       - {x: 1.3893099, y: 0.1827025}
       - {x: 1.2711287, y: 0.38903496}
@@ -698,4 +700,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   attackDamage: 10
-  knockback: {x: -1, y: 0}
+  knockback: {x: -4, y: 0}

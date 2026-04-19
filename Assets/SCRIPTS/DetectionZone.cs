@@ -4,17 +4,18 @@ using UnityEngine.Events;
 
 public class DetectionZone : MonoBehaviour
 {
-    // fires when the last collider leaves the zone (used by CliffDetectionZone to trigger a flip)
+    // fires when nothing is left inside the zone (for example: the CliffDetectionZone uses this to flip the Bringer when it reaches a cliff edge)
     public UnityEvent noCollidersRemain;
 
-    // keeps a list of everything currently inside the detection zone (for example: when the Player touches the detection zone, the list adds the Player)
+    // keeps a list of everything currently inside the detection zone
+    // for example: when the Player enters the zone, the Player gets added to this list
     public List<Collider2D> detectedColliders = new List<Collider2D>();
 
     Collider2D col; // reference to the Collider2D component
 
     private void Awake()
     {
-        col = GetComponent<Collider2D>(); // find and store the Collider2D component
+        col = GetComponent<Collider2D>(); // get the Collider2D component
     }
 
     private void OnTriggerEnter2D(Collider2D collision) // runs when something enters the detection zone
@@ -26,10 +27,9 @@ public class DetectionZone : MonoBehaviour
     {
         detectedColliders.Remove(collision); // remove whatever left the zone from the list
 
-        // if the list is now empty, fire the noCollidersRemain event
-        if (detectedColliders.Count <= 0)
+        if (detectedColliders.Count <= 0) // if the list is now empty
         {
-            noCollidersRemain.Invoke();
+            noCollidersRemain.Invoke(); // nothing left in the zone (triggers the Bringer to flip direction)
         }
     }
 }

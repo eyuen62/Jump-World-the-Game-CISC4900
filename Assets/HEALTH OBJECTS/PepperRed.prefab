@@ -105,10 +105,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6390dcac9c7c64f99a5fdeb75c7eee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DamagePickup
-  damageCaused: 10
+  damageCaused: 12
+  knockback: {x: 1, y: 1}
   spinRotationSpeed: {x: 0, y: 180, z: 0}
   damageSound: {fileID: 8300000, guid: 651a1970747704f44a91545810439e33, type: 3}
-  damageVolume: 1
+  damageVolume: 0.5
 --- !u!58 &-4644096254173236925
 CircleCollider2D:
   m_ObjectHideFlags: 0

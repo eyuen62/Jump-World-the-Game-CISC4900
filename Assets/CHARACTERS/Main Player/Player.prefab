@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   attackDamage: 10
-  knockback: {x: -1, y: 0}
+  knockback: {x: -0.5, y: 0}
 --- !u!1 &1519847325913347274
 GameObject:
   m_ObjectHideFlags: 0
@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attack
   attackDamage: 15
-  knockback: {x: -1.5, y: 0}
+  knockback: {x: -1, y: 0}
 --- !u!1 &4164322627325833526
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +404,8 @@ GameObject:
   - component: {fileID: 6937384373576024457}
   - component: {fileID: 3127532716007837335}
   - component: {fileID: 7421570988715296445}
-  - component: {fileID: 8225607877365595985}
+  - component: {fileID: 8410463876510271934}
+  - component: {fileID: 7785611806875887442}
   m_Layer: 7
   m_Name: Player
   m_TagString: Untagged
@@ -532,8 +533,6 @@ MonoBehaviour:
   airWalkSpeed: 3.5
   jumpImpulse: 5.5
   crouchWalkSpeed: 1.5
-  hurtSound: {fileID: 0}
-  hurtSoundVolume: 1
   _isMoving: 0
   _isFacingRight: 1
   _isCrouching: 0
@@ -736,7 +735,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: -0.06369908, y: -0.04261871}
-  m_Size: {x: 1.0667546, y: 2.422258}
+  m_Size: {x: 1.066755, y: 2.422258}
   m_Direction: 0
 --- !u!114 &6937384373576024457
 MonoBehaviour:
@@ -800,7 +799,7 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   groundDistance: 0.05
-  wallDistance: 0.05
+  wallDistance: 0.01
   ceilingDistance: 0.05
   invertWallCheck: 0
   _isGrounded: 0
@@ -903,7 +902,104 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8225607877365595985
+--- !u!82 &8410463876510271934
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4331860078455307042}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &7785611806875887442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -912,11 +1008,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4331860078455307042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b014943973f21d44af5cb8018afd696, type: 3}
+  m_Script: {fileID: 11500000, guid: f8ad4e38fb443064aaba464ec5d84d4e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerRunSoundController
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerSoundController
   runSound: {fileID: 8300000, guid: 26ec30530c77b4c47b0ada1e0a731776, type: 3}
   crouchWalkSound: {fileID: 8300000, guid: b643e5af7f4cf4c4e979ea541a8ea008, type: 3}
   runVolume: 0.7
   crouchWalkVolume: 0.15
+  jumpSound: {fileID: 8300000, guid: 531fe286348cdd24e9361e34b5d30ba7, type: 3}
+  landSound: {fileID: 8300000, guid: de0b0493898635647bd53f749914a011, type: 3}
+  jumpVolume: 0.5
+  landVolume: 0.2
   stopDelay: 0.1

@@ -312,7 +312,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoopSoundBehaviour
   soundToPlay: {fileID: 8300000, guid: c9bcbfef0d40f154ea6c09e709e400ac, type: 3}
-  volume: 0.4
+  volume: 1
+  use3DAudio: 1
+  minDistance: 10
+  maxDistance: 20
 --- !u!114 &2408691109307313377
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -368,11 +371,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundEffectBehaviour
   soundToPlay: {fileID: 8300000, guid: f3c847049f4f98648a6a2666cd413290, type: 3}
-  volume: 1
+  volume: 0.7
   playOnEnter: 1
   playOnExit: 0
   playAfterDelay: 0
-  playDelay: 0.25
+  playDelay: 0.1
 --- !u!1102 &4333341929612528649
 AnimatorState:
   serializedVersion: 6
@@ -414,11 +417,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundEffectBehaviour
   soundToPlay: {fileID: 8300000, guid: 2c30bac33ca40dd44b7315710c959f98, type: 3}
-  volume: 1
+  volume: 0.3
   playOnEnter: 1
   playOnExit: 0
   playAfterDelay: 0
-  playDelay: 0.25
+  playDelay: 0.1
 --- !u!1107 &7650037732282086852
 AnimatorStateMachine:
   serializedVersion: 6
@@ -485,8 +488,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundEffectBehaviour
   soundToPlay: {fileID: 8300000, guid: 0272bd098b8810547808f075bfea04b5, type: 3}
-  volume: 1
+  volume: 0.7
   playOnEnter: 1
   playOnExit: 0
   playAfterDelay: 0
-  playDelay: 0.25
+  playDelay: 0.1

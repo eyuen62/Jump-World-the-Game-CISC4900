@@ -17,7 +17,7 @@ MonoBehaviour:
   playOnEnter: 1
   playOnExit: 0
   playAfterDelay: 0
-  playDelay: 0.25
+  playDelay: 0.1
 --- !u!1102 &-8197069493914892011
 AnimatorState:
   serializedVersion: 6
@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SoundEffectBehaviour
   soundToPlay: {fileID: 8300000, guid: ef7af24486fe8c344a32cec9352b107a, type: 3}
-  volume: 1
+  volume: 0.5
   playOnEnter: 1
   playOnExit: 0
   playAfterDelay: 0
@@ -121,20 +121,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 0
---- !u!114 &-2922306445929371748
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56dd7e8dab8fbe84e964984ac3d6599a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LoopSoundBehaviour
-  soundToPlay: {fileID: 8300000, guid: 637a9a6798881c942ab194526c2f9585, type: 3}
-  volume: 1
 --- !u!114 &-2767615534726053314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -182,7 +168,7 @@ AnimatorState:
   m_Transitions:
   - {fileID: 4640089004401071011}
   m_StateMachineBehaviours:
-  - {fileID: -2922306445929371748}
+  - {fileID: 8114947829208866638}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -532,6 +518,23 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &8114947829208866638
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dd7e8dab8fbe84e964984ac3d6599a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoopSoundBehaviour
+  soundToPlay: {fileID: 8300000, guid: 637a9a6798881c942ab194526c2f9585, type: 3}
+  volume: 1
+  use3DAudio: 1
+  minDistance: 10
+  maxDistance: 20
 --- !u!1109 &8166120021722118751
 AnimatorTransition:
   m_ObjectHideFlags: 1
@@ -563,7 +566,7 @@ MonoBehaviour:
   playOnEnter: 1
   playOnExit: 0
   playAfterDelay: 0
-  playDelay: 0.25
+  playDelay: 0.1
 --- !u!1107 &8719437945530623797
 AnimatorStateMachine:
   serializedVersion: 6

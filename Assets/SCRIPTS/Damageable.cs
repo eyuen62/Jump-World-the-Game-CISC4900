@@ -3,31 +3,34 @@ using UnityEngine.Events;
 
 public class Damageable : MonoBehaviour
 {
-    Animator animator;
+    Animator animator; // reference to the Animator component
 
+    // fires when the character (either the Player or the Enemies) takes damage (passes the damage amount done and knockback direction)
     public UnityEvent<int, Vector2> damageableHit;
-    public UnityEvent damageableDeath; // fires when the character dies - any listener can react to the death
+
+    // fires when the character dies
+    public UnityEvent damageableDeath;
 
     [SerializeField]
-    private int _maxHealth = 100;
+    private int _maxHealth = 100; // the maximum health the character can have
 
     public int MaxHealth
     {
-        get { return _maxHealth; }
-        set { _maxHealth = value; }
+        get { return _maxHealth; } // return the max health value
+        set { _maxHealth = value; } // set the max health value
     }
 
     [SerializeField]
-    private int _health = 100;
+    private int _health = 100; // the current health of the character
 
     public int Health
     {
-        get { return _health; }
+        get { return _health; } // return the current health value
         set
         {
-            _health = value;
+            _health = value; // store the new health value
 
-            // If health drops to 0 or below, character is no longer alive
+            // if health drops to 0 or below, the character is dead
             if (_health <= 0)
             {
                 IsAlive = false;
@@ -36,100 +39,93 @@ public class Damageable : MonoBehaviour
     }
 
     [SerializeField]
-    private bool _isAlive = true;
+    private bool _isAlive = true; // stores whether the character is alive or not
 
     [SerializeField]
-    private bool isInvincible = false;
+    private bool isInvincible = false; // stores whether the character is currently invincible or not (after getting hit)
 
-    private float timeSinceHit = 0;
-    public float invincibilityTime = 0.25f;
+    private float timeSinceHit = 0; // tracks how long it has been since the character was last hit
+    public float invincibilityTime = 0.25f; // how long the character stays invincible after getting hit
 
     public bool IsAlive
     {
-        get { return _isAlive; }
+        get { return _isAlive; } // return whether the character is alive or not
         private set
         {
-            _isAlive = value;
-            animator.SetBool("isAlive", value);
-            Debug.Log("IsAlive set " + value);
+            _isAlive = value; // store the new value
+            animator.SetBool("isAlive", value); // tell the Animator whether the character is alive or not
+            Debug.Log("IsAlive set " + value); // log in the console for debugging
 
             if (value == false)
             {
-                damageableDeath.Invoke(); // notify any listeners that this character has died
+                damageableDeath.Invoke(); // fires the death event
             }
         }
     }
 
-
-    // the velocity should not be changed while this is true
-    // but needs to be respected by other physics components like the player controller
+    // if true, the character's velocity is frozen a bit during a hit stun
     public bool LockVelocity
     {
-        get { return animator.GetBool("lockVelocity"); }
-        set { animator.SetBool("lockVelocity", value); }
+        get { return animator.GetBool("lockVelocity"); } // get the lockVelocity bool from the Animator
+        set { animator.SetBool("lockVelocity", value); } // set the lockVelocity bool in the Animator
     }
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>(); // get the Animator component
     }
 
     private void Update()
     {
-        if (isInvincible)
+        if (isInvincible) // only run if the character is currently invincible
         {
-            if (timeSinceHit > invincibilityTime)
+            if (timeSinceHit > invincibilityTime) // if the invincibility window has passed
             {
-                // Remove invincibility
-                isInvincible = false;
-                timeSinceHit = 0;
+                isInvincible = false; // remove invincibility
+                timeSinceHit = 0; // reset the timer
             }
 
-            timeSinceHit += Time.deltaTime;
+            timeSinceHit += Time.deltaTime; // count the timer since the last hit
         }
-
     }
 
-    // Returns whether the damageable took damage or not
+    // called when something tries to deal damage (returns true if the hit was successful, false if not)
     public bool Hit(int damage, Vector2 knockback)
     {
-        if (IsAlive && !isInvincible)
+        if (IsAlive && !isInvincible) // only take damage if alive and not currently invincible (or dead)
         {
-            Health -= damage;
-            isInvincible = true;
-            animator.SetTrigger("hit"); // tell the Animator to trigger the hit animation
+            Health -= damage; // reduce health by the damage amount
+            isInvincible = true; // make the character temporarily invincible so they cant be hit again immediately
+            animator.SetTrigger("hit"); // tell the Animator to play the hit animation
 
-            LockVelocity = true;
+            LockVelocity = true; // freeze the character's velocity during hit stun (stops them from moving for a bit)
 
-            // notify other subscribed components that the damageable was hit to handle the knockback and such
+            // fires the damageableHit event (this triggers OnHit on whatever character was hit to apply the knockback)
             damageableHit?.Invoke(damage, knockback);
 
+            // fires the global damage event so the UIManager script can show the floating damage text
             CharacterEvents.characterDamaged?.Invoke(gameObject, damage);
 
-            return true;
+            return true; // hit was successful
         }
 
-        // unable to be hit
-        return false;
+        return false; // hit failed (either dead or invincible)
     }
 
     public void Heal(int healthRestore)
     {
-        if (IsAlive) // only heal if the character is still alive - no point healing a dead character
+        if (IsAlive) // only heal if the character is still alive
         {
-            // figure out how much room is left before hitting max health
-            // for example if health is 90 and max is 100, there is 10 room left
-            // Mathf.Max makes sure this never goes below 0 just in case
+            // figure out how much health is left before hitting max health
+            // Mathf.Max makes sure health never goes below 0 (meaning once the health drops all the way, 0 is the only number shown)
             int maxHeal = Mathf.Max(MaxHealth - Health, 0);
 
-            // pick whichever is smaller - the room left or the food's restore value
-            // this prevents the health from ever going over the max health cap
-            // for example if room left is 10 but food restores 35, actualHeal becomes 10
+            // prevents health from ever going over the max health cap
             int actualHeal = Mathf.Min(maxHeal, healthRestore);
 
-            Health += actualHeal; // add only the capped heal amount to the current health
+            Health += actualHeal; // add the capped heal amount to the current health
 
-            // fire the global heal event with the actual healed amount so the green floating text shows the right number
+            // fires the global heal event so the UIManager script can show the floating heal text
             CharacterEvents.characterHealed?.Invoke(gameObject, actualHeal);
         }
     }

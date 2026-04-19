@@ -2,40 +2,31 @@ using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
 {
-    // camera that's looking at the game
+    // the camera that's looking at the game
     public Camera cam;
 
-
-    // slider range from 0 to 1 for the parallax speed
-    // if i want it to move with the camera, then i want it at 1
-    // if i want it to move with the camera, then i want it at 0
+    // how fast the background moves relative to the camera (0 = moves with camera, 1 = stays still)
     [Range(0f, 1f)]
+    public float parallaxSpeed = 0.5f; // set as 0.5 for inbetween
 
-    // start at 0.5
-    public float parallaxSpeed = 0.5f;
-
-    // remember where the background started when the game began
-    private Vector2 startingPosition;
-
-    // remember where the camera started
-    private Vector2 lastCameraPosition;
+    private Vector2 startingPosition; // stores where the background started when the game began
+    private Vector2 lastCameraPosition; // stores where the camera was last frame
 
     void Start()
     {
-        // save where we started
-        startingPosition = transform.position;
-        lastCameraPosition = cam.transform.position;
+        startingPosition = transform.position; // save the starting position of the background
+        lastCameraPosition = cam.transform.position; // save the starting position of the camera
     }
 
-    void LateUpdate() // happens AFTER the camera moves
+    void LateUpdate() // runs after the camera moves every frame
     {
-        // this is to show how much did the camera move
+        // calculate how much the camera moved this frame
         Vector2 cameraMovement = (Vector2)cam.transform.position - lastCameraPosition;
 
-        // move the background but slower than the camera
+        // move the background slower than the camera to create the parallax depth effect
         transform.position += new Vector3(cameraMovement.x * parallaxSpeed, 0, 0);
 
-        // remember where the camera is now for next frame
+        // remember where the camera is now for the next frame
         lastCameraPosition = cam.transform.position;
     }
 }

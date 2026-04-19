@@ -108,7 +108,7 @@ MonoBehaviour:
   healthRestore: 5
   spinRotationSpeed: {x: 0, y: 180, z: 0}
   pickupSound: {fileID: 8300000, guid: 651a1970747704f44a91545810439e33, type: 3}
-  pickupVolume: 1
+  pickupVolume: 0.5
 --- !u!58 &4468398105842506544
 CircleCollider2D:
   m_ObjectHideFlags: 0

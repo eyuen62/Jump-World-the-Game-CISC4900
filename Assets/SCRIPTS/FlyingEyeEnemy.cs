@@ -3,28 +3,38 @@ using UnityEngine;
 
 public class FlyingEyeEnemy : MonoBehaviour
 {
-    public float flightSpeed = 2f; // how fast the Flying Eye moves between waypoints
-    public float waypointReachedDistance = 0.1f; // how close the Flying Eye needs to get before switching to the next waypoint
-    public DetectionZone biteDetectionZone; // reference to the DetectionZone child that detects when the Player is in bite range
-    public Collider2D deathCollider; // reference to the DeathCollider child that enables when the Flying Eye dies
-    public List<Transform> waypoints; // the list of waypoints the Flying Eye will fly between
+    // how fast it moves between waypoints
+    public float flightSpeed = 0f;
+
+    // how close it needs to get before going to the next waypoint
+    public float waypointReachedDistance = 0.1f;
+
+    // reference to the AttackDetectionZone child object that detects when the Player is in bite range
+    public DetectionZone biteDetectionZone;
+
+    // reference to the DeathCollider child object that enables when it dies
+    public Collider2D deathCollider;
+
+    // list of waypoints to fly between
+    public List<Transform> waypoints;
 
     Animator animator; // reference to the Animator component
     Rigidbody2D rb; // reference to the Rigidbody2D component
-    Damageable damageable; // reference to the Damageable component
+    Damageable damageable; // reference to the Damageable script
+    private Animator playerAnimator; // reference to the Player's Animator to check if the Player is currently attacking
 
-    Transform nextWaypoint; // the waypoint the Flying Eye is currently flying toward
-    int waypointNum = 0; // tracks which waypoint in the list is currently active
+    Transform nextWaypoint; // the waypoint it is currently flying toward
+    int waypointNum = 0; // tracks which waypoint in the list is currently next and active
 
-    public bool _hasTarget = false; // stores whether the Flying Eye currently sees the Player or not
+    public bool _hasTarget = false; // stores whether it sees the Player or not
 
     public bool HasTarget
     {
         get { return _hasTarget; } // return the stored value
         private set
         {
-            _hasTarget = value; // store the new value (true or false)
-            animator.SetBool("hasTarget", value); // tell the Animator if the Flying Eye sees the Player or not
+            _hasTarget = value; // store the new value
+            animator.SetBool("hasTarget", value); // tell the Animator whether it sees the Player or not
         }
     }
 
@@ -32,33 +42,41 @@ public class FlyingEyeEnemy : MonoBehaviour
     {
         get
         {
-            return animator.GetBool("canMove"); // check the Animator to see if the Flying Eye is allowed to move
+            return animator.GetBool("canMove"); // check the Animator to see if it is allowed to move
         }
     }
 
     private void Awake()
     {
-        animator = GetComponent<Animator>(); // find and store the Animator component
-        rb = GetComponent<Rigidbody2D>(); // find and store the Rigidbody2D component
-        damageable = GetComponent<Damageable>(); // find and store the Damageable component
+        animator = GetComponent<Animator>(); // get the Animator component
+        rb = GetComponent<Rigidbody2D>(); // get the Rigidbody2D component
+        damageable = GetComponent<Damageable>(); // get the Damageable component
+
+        // find the Player in the scene by name and grab their Animator so we can check if they are attacking
+        GameObject player = GameObject.Find("Player");
+        if (player != null)
+        {
+            playerAnimator = player.GetComponent<Animator>(); // store the Player's Animator for attack state checking
+        }
     }
 
     private void Start()
     {
-        nextWaypoint = waypoints[waypointNum]; // set the first waypoint as the target when the game starts
+        nextWaypoint = waypoints[waypointNum]; // set the first waypoint as the first target when the game starts
     }
 
     void Update()
     {
-        // check the bite detection zone and only set HasTarget to true if the Player is inside AND still alive
-        // this prevents the Flying Eye from continuing to attack after the Player dies
-        HasTarget = biteDetectionZone.detectedColliders.Count > 0 && IsPlayerAlive();
+        // check if the Player is currently attacking (if so, block it from triggering its own attack)
+        bool playerIsAttacking = playerAnimator != null && !playerAnimator.GetBool("canMove");
+
+        // only set HasTarget to true if the Player is in range, alive, and not currently attacking
+        HasTarget = biteDetectionZone.detectedColliders.Count > 0 && IsPlayerAlive() && !playerIsAttacking;
     }
 
     private bool IsPlayerAlive()
     {
-        // go through everything currently inside the bite detection zone
-        // if any of them have a Damageable component, check if they are still alive
+        // check everything inside the BiteDetectionZone (if any of them have a Damageable component, check if they are still alive)
         foreach (Collider2D collider in biteDetectionZone.detectedColliders)
         {
             Damageable damageable = collider.GetComponent<Damageable>();
@@ -67,49 +85,46 @@ public class FlyingEyeEnemy : MonoBehaviour
                 return damageable.IsAlive; // return whether the detected target is alive or not
             }
         }
-        return false; // nothing with a Damageable found in the zone so treat it as no alive target
+        return false; // if nothing with a Damageable component is found in the BiteDetectionZone, then theres no target
     }
 
     private void FixedUpdate()
     {
-        if (damageable.IsAlive) // only move if the Flying Eye is still alive
+        if (damageable.IsAlive) // only move if it's still alive
         {
             if (CanMove) // only fly if the Animator allows movement
             {
-                Flight(); // move toward the next waypoint
+                Flight(); // move towards the next waypoint
             }
             else
             {
-                rb.linearVelocity = Vector2.zero; // stop all movement when not allowed to move (during attack)
+                rb.linearVelocity = Vector2.zero; // stop all movement when it cant move (during an attack)
             }
         }
     }
 
-    // fly between waypoints and loop back to start when final waypoint is reached
+    // fly between waypoints and loop back to the start when the last waypoint is reached
     private void Flight()
     {
-        // calculate the direction from the Flying Eye to the next waypoint and normalize it to get a unit vector
+        // calculate the direction from where it's at to the next waypoint
         Vector2 directionToWaypoint = (nextWaypoint.position - transform.position).normalized;
 
-        // calculate the actual distance between the Flying Eye and the next waypoint
+        // calculate the distance between it and its next waypoint
         float distance = Vector2.Distance(nextWaypoint.position, transform.position);
 
-        // move the Flying Eye toward the next waypoint at flightSpeed
+        // move towards the next waypoint at flightSpeed
         rb.linearVelocity = directionToWaypoint * flightSpeed;
 
-        // update the facing direction based on which way the Flying Eye is moving
+        // update the facing direction based on which way it's moving
         UpdateDirection();
 
-        // check if the Flying Eye is close enough to the waypoint to switch to the next one
-        if (distance <= waypointReachedDistance)
+        if (distance <= waypointReachedDistance) // if close enough to the waypoint, move to the next one
         {
-            // switch to the next waypoint
-            waypointNum++;
+            waypointNum++; // move to the next waypoint
 
             if (waypointNum >= waypoints.Count)
             {
-                // loop back to the first waypoint when the last one is reached
-                waypointNum = 0;
+                waypointNum = 0; // loop back to the first waypoint when the last one is reached
             }
 
             nextWaypoint = waypoints[waypointNum]; // update the target to the new waypoint
@@ -122,25 +137,23 @@ public class FlyingEyeEnemy : MonoBehaviour
 
         if (transform.localScale.x > 0) // currently facing right
         {
-            if (rb.linearVelocity.x < 0) // moving left
+            if (rb.linearVelocity.x < 0) // if moving left
             {
-                // flip to face left
-                transform.localScale = new Vector3(-1 * locScale.x, locScale.y, locScale.z);
+                transform.localScale = new Vector3(-1 * locScale.x, locScale.y, locScale.z); // flip to face left
             }
         }
         else // currently facing left
         {
-            if (rb.linearVelocity.x > 0) // moving right
+            if (rb.linearVelocity.x > 0) // if moving right
             {
-                // flip to face right
-                transform.localScale = new Vector3(-1 * locScale.x, locScale.y, locScale.z);
+                transform.localScale = new Vector3(-1 * locScale.x, locScale.y, locScale.z); // flip to face right
             }
         }
     }
 
+    // called by Damageable script when it dies (re-enables gravity so the body falls to the ground)
     public void OnDeath()
     {
-        // dead Flying Eye falls to the ground
         rb.gravityScale = 2f; // re-enable gravity so the body falls
         rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); // stop horizontal movement but keep vertical so it falls straight down
         deathCollider.enabled = true; // enable the death collider so the body lands on the ground properly
