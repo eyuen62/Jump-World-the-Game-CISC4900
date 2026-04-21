@@ -11,6 +11,10 @@ public class Damageable : MonoBehaviour
     // fires when the character dies
     public UnityEvent damageableDeath;
 
+
+    // fires whenever the Player's health changes — HealthBar listens to this to update the slider and text
+    public UnityEvent<int, int> healthChanged;
+
     [SerializeField]
     private int _maxHealth = 100; // the maximum health the character can have
 
@@ -28,7 +32,11 @@ public class Damageable : MonoBehaviour
         get { return _health; } // return the current health value
         set
         {
-            _health = value; // store the new health value
+            _health = Mathf.Clamp(value, 0, _maxHealth); // store the new health value (make sure it never goes below 0 or above max health)
+
+
+            // tell HealthBar that the health just changed which pass the new health and max health
+            healthChanged?.Invoke(_health, MaxHealth);
 
             // if health drops to 0 or below, the character is dead
             if (_health <= 0)
@@ -54,7 +62,6 @@ public class Damageable : MonoBehaviour
         {
             _isAlive = value; // store the new value
             animator.SetBool("isAlive", value); // tell the Animator whether the character is alive or not
-            Debug.Log("IsAlive set " + value); // log in the console for debugging
 
             if (value == false)
             {

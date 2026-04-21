@@ -175,7 +175,7 @@ public class PlayerController : MonoBehaviour
     public void OnJump(InputAction.CallbackContext context) // runs when the Player presses W key or Spacebar
     {
         // only allow jumping if on the ground and not crouching
-        if (context.started && touchingDirections.IsGrounded && !IsCrouching)
+        if (context.started && touchingDirections.IsGrounded && IsAlive)
         {
             animator.SetTrigger("jump"); // tell the Animator to trigger the jump animation
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpImpulse); // apply upward force to jump
