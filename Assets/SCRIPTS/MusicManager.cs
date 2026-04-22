@@ -25,6 +25,7 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
+        AudioListener.volume = 1f; // make sure volume is restored when scene loads
         ShuffleTracks(); // shuffle the track order when the game starts
         PlayCurrentTrack(); // play the first track in the shuffled order
     }
