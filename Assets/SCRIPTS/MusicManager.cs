@@ -8,7 +8,7 @@ public class MusicManager : MonoBehaviour
     public AudioClip[] musicTracks;
 
     // overall music volume
-    public float volume = 0.05f;
+    public float volume = 0.5f;
 
     // how long the music crossfades (in seconds) before switching to the next track
     public float fadeDuration = 5f;
@@ -25,7 +25,9 @@ public class MusicManager : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f; // make sure time is reset when scene loads
         AudioListener.volume = 1f; // make sure volume is restored when scene loads
+        audioSource.volume = PlayerPrefs.GetFloat("SavedMusicVolume", 0.5f); // load saved volume or default to 50%
         ShuffleTracks(); // shuffle the track order when the game starts
         PlayCurrentTrack(); // play the first track in the shuffled order
     }
@@ -87,7 +89,7 @@ public class MusicManager : MonoBehaviour
         if (musicTracks.Length == 0) return; // don't play if no tracks are assigned
 
         audioSource.clip = musicTracks[trackOrder[currentTrackIndex]]; // set the current track
-        audioSource.volume = volume; // restore volume to full before playing
+        audioSource.volume = PlayerPrefs.GetFloat("SavedMusicVolume", 0.5f); // use saved volume instead of hardcoded value
         audioSource.Play(); // play the track
     }
 

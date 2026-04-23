@@ -7,6 +7,7 @@ public class PauseMenuController : MonoBehaviour
     public GameObject pauseMenuPanel;
     private bool isPaused = false; // tracks whether the game is currently paused or not
     private PlayerInput playerInput; // reference to the Player's input component
+    public GameObject settingsPanel; // drag SettingsPanel in here
 
     private void Awake()
     {
@@ -18,6 +19,13 @@ public class PauseMenuController : MonoBehaviour
     {
         if (context.started)
         {
+            // if settings panel is open, close it and stay on pause menu instead
+            if (settingsPanel.activeSelf)
+            {
+                settingsPanel.SetActive(false);
+                return;
+            }
+
             // if paused, resume
             // if not paused, pause
             if (isPaused)
@@ -37,7 +45,7 @@ public class PauseMenuController : MonoBehaviour
         isPaused = false;
     }
 
-    void Pause()
+    public void Pause()
     {
         // show the pause menu and freeze the game
         pauseMenuPanel.SetActive(true);
@@ -45,6 +53,16 @@ public class PauseMenuController : MonoBehaviour
         AudioListener.pause = true; // pause all audio
         playerInput.DeactivateInput(); // stop player from receiving any input while paused
         isPaused = true;
+    }
+
+    public void TogglePause()
+    {
+        // if paused, resume
+        // if not paused, pause
+        if (isPaused)
+            Resume();
+        else
+            Pause();
     }
 
     public void RestartGame()
