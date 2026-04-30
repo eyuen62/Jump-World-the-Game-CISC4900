@@ -408,7 +408,7 @@ GameObject:
   - component: {fileID: 7785611806875887442}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -478,7 +478,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 1992580180, guid: 8fc84bd1fffdbe54593963da9373b9ed, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -767,6 +767,9 @@ MonoBehaviour:
   damageableDeath:
     m_PersistentCalls:
       m_Calls: []
+  healthChanged:
+    m_PersistentCalls:
+      m_Calls: []
   _maxHealth: 100
   _health: 100
   _isAlive: 1
@@ -799,7 +802,7 @@ MonoBehaviour:
     minNormalAngle: 0
     maxNormalAngle: 0
   groundDistance: 0.05
-  wallDistance: 0.01
+  wallDistance: 0.05
   ceilingDistance: 0.05
   invertWallCheck: 0
   _isGrounded: 0

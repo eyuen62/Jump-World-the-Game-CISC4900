@@ -114,10 +114,6 @@ PrefabInstance:
       propertyPath: m_HandleRect
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1224941050276121815, guid: 93e71179c24ed3f4c84d64625f935419, type: 3}
-      propertyPath: m_TargetGraphic
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 2070478519968206706, guid: 93e71179c24ed3f4c84d64625f935419, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
