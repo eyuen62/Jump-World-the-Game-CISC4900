@@ -8,7 +8,7 @@ public class OutOfBoundsKill : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // specfically for the Player and no one elses
+        // specfically for the Player and no one else
         if (!collision.CompareTag("Player"))
             return;
 
