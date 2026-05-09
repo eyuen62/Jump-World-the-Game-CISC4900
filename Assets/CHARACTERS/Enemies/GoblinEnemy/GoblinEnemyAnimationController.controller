@@ -23,6 +23,23 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 280, y: 10, z: 0}
   m_ParentStateMachinePosition: {x: 30, y: 140, z: 0}
   m_DefaultState: {fileID: -7993691377340630627}
+--- !u!114 &-8481452319908803020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dd7e8dab8fbe84e964984ac3d6599a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LoopSoundBehaviour
+  soundToPlay: {fileID: 8300000, guid: 471f53a48a8e4664b93ed337ca47ecc0, type: 3}
+  volume: 0.3
+  use3DAudio: 1
+  minDistance: 10
+  maxDistance: 20
 --- !u!1102 &-7993691377340630627
 AnimatorState:
   serializedVersion: 6
@@ -37,6 +54,7 @@ AnimatorState:
   - {fileID: 8784281108665996827}
   m_StateMachineBehaviours:
   - {fileID: 6832390533340453499}
+  - {fileID: -1634968798825893406}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -63,7 +81,8 @@ AnimatorState:
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -6826129763163389901}
-  m_StateMachineBehaviours: []
+  m_StateMachineBehaviours:
+  - {fileID: -8481452319908803020}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -135,10 +154,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isAlive
+    m_ConditionEvent: hit
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: hit
+    m_ConditionEvent: isAlive
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 4199813397700604481}
@@ -224,6 +243,42 @@ AnimatorTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 1
+--- !u!114 &-1880954865329551668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5285f49040452f74f80fa380aad72b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundEffectBehaviour
+  soundToPlay: {fileID: 8300000, guid: 08ba6bdfcd2d08d4586e8e55c9228c69, type: 3}
+  volume: 3
+  playOnEnter: 1
+  playOnExit: 0
+  playAfterDelay: 0
+  playDelay: 0.1
+--- !u!114 &-1634968798825893406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5285f49040452f74f80fa380aad72b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundEffectBehaviour
+  soundToPlay: {fileID: 8300000, guid: 3e56ffde706530241929a3acd3866c05, type: 3}
+  volume: 3
+  playOnEnter: 1
+  playOnExit: 0
+  playAfterDelay: 0
+  playDelay: 0.25
 --- !u!1107 &-147387495107443832
 AnimatorStateMachine:
   serializedVersion: 6
@@ -353,6 +408,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 8192523560046714349}
   - {fileID: 3537019113848987113}
+  - {fileID: 6417315991753120565}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -399,6 +455,7 @@ AnimatorState:
   m_StateMachineBehaviours:
   - {fileID: 7375229302749038306}
   - {fileID: -4127350499263505059}
+  - {fileID: -1880954865329551668}
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
@@ -413,6 +470,24 @@ AnimatorState:
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!114 &6417315991753120565
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5285f49040452f74f80fa380aad72b1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundEffectBehaviour
+  soundToPlay: {fileID: 8300000, guid: d863c63c4e350544fb8febf21ae70408, type: 3}
+  volume: 3
+  playOnEnter: 1
+  playOnExit: 0
+  playAfterDelay: 0
+  playDelay: 0.1
 --- !u!1107 &6457905622385961850
 AnimatorStateMachine:
   serializedVersion: 6
