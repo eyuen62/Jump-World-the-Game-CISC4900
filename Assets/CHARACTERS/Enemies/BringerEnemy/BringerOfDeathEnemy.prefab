@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b191ae1ca92d7a548bc1e7fdeec0a9d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BringerEnemy
-  walkSpeed: 2
+  walkSpeed: 3
   walkStopRate: 0.5
   attackZone: {fileID: 5729389298131723925}
   cliffDetectionZone: {fileID: 4481674845068310169}
@@ -702,5 +702,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3695f097b87e5d479bb10a8928e6e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  attackDamage: 10
-  knockback: {x: -4, y: 0}
+  attackDamage: 15
+  knockback: {x: -5, y: 0}

@@ -529,7 +529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70e9a8c26984f9c41a714fbebd6e91d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  walkSpeed: 2.5
+  walkSpeed: 3
   airWalkSpeed: 3.5
   jumpImpulse: 5.5
   crouchWalkSpeed: 1.5
@@ -770,8 +770,8 @@ MonoBehaviour:
   healthChanged:
     m_PersistentCalls:
       m_Calls: []
-  _maxHealth: 100
-  _health: 100
+  _maxHealth: 1000
+  _health: 1000
   _isAlive: 1
   isInvincible: 0
   invincibilityTime: 0.25

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class MusicManager : MonoBehaviour
 {
@@ -10,58 +11,116 @@ public class MusicManager : MonoBehaviour
     // overall music volume
     public float volume = 0.5f;
 
-    // how long the music crossfades (in seconds) before switching to the next track
+    // how long the crossfade takes (in seconds)
     public float fadeDuration = 5f;
 
-    private AudioSource audioSource; // reference to the AudioSource component
-    private List<int> trackOrder; // stores the shuffled order of tracks
-    private int currentTrackIndex = 0; // tracks which song in the shuffled order is currently playing
-    private bool isFading = false; // prevents multiple crossfades from triggering at the same time
+    // drag the Music mixer group here so volume slider still works
+    public AudioMixerGroup musicMixerGroup;
+
+    private AudioSource sourceA;
+    private AudioSource sourceB;
+    private AudioSource activeSource; // whichever source is currently playing
+
+    private List<int> trackOrder;
+    private int currentTrackIndex = 0;
+    private bool isFading = false;
 
     private void Awake()
     {
-        audioSource = GetComponent<AudioSource>(); // get the AudioSource component
+        // create two AudioSources in code — one fades out while the other fades in
+        sourceA = gameObject.AddComponent<AudioSource>();
+        sourceB = gameObject.AddComponent<AudioSource>();
+
+        // route both through the Music mixer group so the volume slider controls them
+        sourceA.outputAudioMixerGroup = musicMixerGroup;
+        sourceB.outputAudioMixerGroup = musicMixerGroup;
+
+        sourceA.playOnAwake = false;
+        sourceB.playOnAwake = false;
+        sourceA.loop = false;
+        sourceB.loop = false;
+
+        activeSource = sourceA;
     }
 
     private void Start()
     {
         Time.timeScale = 1f; // make sure time is reset when scene loads
         AudioListener.volume = 1f; // make sure volume is restored when scene loads
-        audioSource.volume = PlayerPrefs.GetFloat("SavedMusicVolume", 0.5f); // load saved volume or default to 50%
-        ShuffleTracks(); // shuffle the track order when the game starts
-        PlayCurrentTrack(); // play the first track in the shuffled order
+
+        float savedVolume = PlayerPrefs.GetFloat("SavedMusicVolume", 0.5f);
+        sourceA.volume = savedVolume;
+        sourceB.volume = 0f; // inactive source starts silent
+
+        ShuffleTracks();
+        PlayCurrentTrack();
     }
 
     private void Update()
     {
-        if (audioSource.isPlaying && !isFading) // only check if a track is playing and not already fading
+        if (activeSource.isPlaying && !isFading)
         {
-            float timeRemaining = audioSource.clip.length - audioSource.time; // how much time is left in the track
+            float timeRemaining = activeSource.clip.length - activeSource.time;
 
-            if (timeRemaining <= fadeDuration) // if within the fade window, start fading the music
+            // start crossfading when close to the end of the track
+            if (timeRemaining <= fadeDuration)
             {
-                StartCoroutine(FadeAndNext()); // start fading out and then play the next track
+                StartCoroutine(CrossFadeToNext());
             }
         }
     }
 
-    private IEnumerator FadeAndNext()
+    private IEnumerator CrossFadeToNext()
     {
-        isFading = true; // mark that a fade is currently happening
+        isFading = true;
 
-        float startVolume = audioSource.volume; // remember the starting volume
-        float elapsed = 0f; // tracks how much time has passed during the fade
+        // pick whichever source isn't currently active
+        AudioSource nextSource = (activeSource == sourceA) ? sourceB : sourceA;
 
-        while (elapsed < fadeDuration) // gradually reduce volume over the fade duration
+        // move to the next track in the shuffled order
+        currentTrackIndex++;
+        if (currentTrackIndex >= trackOrder.Count)
         {
-            elapsed += Time.deltaTime; // count up time
-            audioSource.volume = Mathf.Lerp(startVolume, 0f, elapsed / fadeDuration); // smoothly lower volume to 0
-            yield return null; // wait one frame before continuing
+            ShuffleTracks();
+            currentTrackIndex = 0;
         }
 
-        audioSource.Stop(); // stop the current track once fully faded out
-        NextTrack(); // move to the next track
-        isFading = false; // reset the fading flag
+        float savedVolume = PlayerPrefs.GetFloat("SavedMusicVolume", 0.5f);
+
+        // load and start the next track immediately at volume 0 — no gap
+        nextSource.clip = musicTracks[trackOrder[currentTrackIndex]];
+        nextSource.volume = 0f;
+        nextSource.Play();
+
+        float elapsed = 0f;
+        float startVolume = activeSource.volume;
+
+        // fade old track out and new track in at the same time
+        while (elapsed < fadeDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / fadeDuration;
+
+            activeSource.volume = Mathf.Lerp(startVolume, 0f, t);
+            nextSource.volume = Mathf.Lerp(0f, savedVolume, t);
+
+            yield return null;
+        }
+
+        activeSource.Stop();
+        activeSource.volume = 0f;
+
+        // next source is now the active one
+        activeSource = nextSource;
+
+        isFading = false;
+    }
+
+    public void SetVolume(float value)
+    {
+        // update whichever source is currently active
+        if (activeSource != null)
+            activeSource.volume = value;
     }
 
     private void ShuffleTracks()
@@ -71,38 +130,26 @@ public class MusicManager : MonoBehaviour
 
         for (int i = 0; i < musicTracks.Length; i++)
         {
-            trackOrder.Add(i); // add each track index to the list
+            trackOrder.Add(i);
         }
 
         // goes through the list and randomly swaps each element
         for (int i = trackOrder.Count - 1; i > 0; i--)
         {
-            int randomIndex = Random.Range(0, i + 1); // pick a random index
-            int temp = trackOrder[i]; // store the current value
-            trackOrder[i] = trackOrder[randomIndex]; // swap
-            trackOrder[randomIndex] = temp; // complete the swap
+            int randomIndex = Random.Range(0, i + 1);
+            int temp = trackOrder[i];
+            trackOrder[i] = trackOrder[randomIndex];
+            trackOrder[randomIndex] = temp;
         }
     }
 
     private void PlayCurrentTrack()
     {
-        if (musicTracks.Length == 0) return; // don't play if no tracks are assigned
+        if (musicTracks.Length == 0) return;
 
-        audioSource.clip = musicTracks[trackOrder[currentTrackIndex]]; // set the current track
-        audioSource.volume = PlayerPrefs.GetFloat("SavedMusicVolume", 0.5f); // use saved volume instead of hardcoded value
-        audioSource.Play(); // play the track
-    }
-
-    private void NextTrack()
-    {
-        currentTrackIndex++; // move to the next track in the shuffled order
-
-        if (currentTrackIndex >= trackOrder.Count) // if all tracks have been played
-        {
-            ShuffleTracks(); // reshuffle for a new random order
-            currentTrackIndex = 0; // start from the beginning of the new shuffle
-        }
-
-        PlayCurrentTrack(); // play the next track
+        float savedVolume = PlayerPrefs.GetFloat("SavedMusicVolume", 0.5f);
+        activeSource.clip = musicTracks[trackOrder[currentTrackIndex]];
+        activeSource.volume = savedVolume;
+        activeSource.Play();
     }
 }

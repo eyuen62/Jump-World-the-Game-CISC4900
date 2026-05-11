@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3695f097b87e5d479bb10a8928e6e7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Attack
-  attackDamage: 20
+  attackDamage: 15
   knockback: {x: 2, y: 0}
 --- !u!1 &6836765636950412225
 GameObject:

@@ -22,4 +22,13 @@ public class StartMenuController : MonoBehaviour
         SceneManager.LoadScene("QuitScene");
 #endif
     }
+
+    private void StopMenuMusic()
+    {
+        // find the Music object and stop it immediately
+        GameObject music = GameObject.Find("Music");
+        if (music != null)
+            music.GetComponent<AudioSource>().Stop();
+    }
+
 }

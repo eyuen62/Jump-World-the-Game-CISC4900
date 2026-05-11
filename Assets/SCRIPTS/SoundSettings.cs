@@ -23,9 +23,9 @@ public class SoundSettings : MonoBehaviour
 
     private void ApplyVolume(float value)
     {
-        // find the Music object in the scene and set its volume directly
-        GameObject music = GameObject.Find("Music");
-        if (music != null)
-            music.GetComponent<AudioSource>().volume = value;
+        // find MusicManager and tell it to update volume directly
+        MusicManager musicManager = GameObject.Find("Music").GetComponent<MusicManager>();
+        if (musicManager != null)
+            musicManager.SetVolume(value);
     }
 }

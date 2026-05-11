@@ -360,8 +360,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LoopSoundBehaviour
   soundToPlay: {fileID: 8300000, guid: d86da91874f72714bb70fe5e39537e7c, type: 3}
-  volume: 1
-  use3DAudio: 0
+  volume: 0.5
+  use3DAudio: 1
   minDistance: 10
   maxDistance: 20
 --- !u!1107 &357312358482202286
